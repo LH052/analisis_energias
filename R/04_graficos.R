@@ -17,3 +17,4 @@ dEnergia
 plot(dEnergia)
 
 y<-2
+
