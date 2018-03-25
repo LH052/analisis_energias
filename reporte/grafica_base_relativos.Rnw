@@ -1,0 +1,181 @@
+\documentclass{article}
+%\usepackage[left=0.5cm,top=0.5cm,right=0.5cm,bottom=0.5cm]{geometry}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{flushend}
+\usepackage{Sweave}
+
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{center}
+\setlength\PreviewBorder{10pt}
+\pgfplotsset{compat=1.15}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+<<label=energias_excel,echo=false,results=hide,fig=false>>==
+  library(xlsx)
+  vector <- read.xlsx("Calculo por servidor1.xlsx", sheetName = "RESULTADOS(19-02-2018)", rowIndex = NULL, startRow = 3, endRow = 36, colIndex = c(23, 31, 32, 33, 34), as.data.frame = TRUE, header = FALSE, colClasses = NA, keepFormulas = FALSE)
+energias_nb_co_dds<-as.double(data.matrix(vector[4:12,2]))
+energias_mo_co_dds<-as.double(data.matrix(vector[4:12,3]))
+energias_nb_ni_dds<-as.double(data.matrix(vector[4:12,4]))
+energias_mo_ni_dds<-as.double(data.matrix(vector[4:12,5]))
+energias_nb_co_23dht<-as.double(data.matrix(vector[14:22,2]))
+energias_mo_co_23dht<-as.double(data.matrix(vector[14:22,3]))
+energias_nb_ni_23dht<-as.double(data.matrix(vector[14:22,4]))
+energias_mo_ni_23dht<-as.double(data.matrix(vector[14:22,5]))
+energias_nb_co_25dht<-as.double(data.matrix(vector[24:32,2]))
+energias_mo_co_25dht<-as.double(data.matrix(vector[24:32,3]))
+energias_nb_ni_25dht<-as.double(data.matrix(vector[24:32,4]))
+energias_mo_ni_25dht<-as.double(data.matrix(vector[24:32,5]))
+@
+  
+  \begin{center}
+    \begin{tikzpicture}[scale=1.0]
+      \begin{axis}[clip=false,ylabel=Relative energy (eV),xlabel=Reaction coordinate,xtick=\empty,legend pos=north east, xmin=0,xmax=19, title= DDS pathway Nb vs. Mo (Co-promoted)]
+        \addlegendentry{\tiny $Co-NbS_2$}
+        \addlegendentry{\tiny $Co-MoS_2$}
+<<echo=false,results=tex,fig=false>>=
+        for(h in 1:length(energias_nb_co_dds))
+          {
+            cat(paste("\t","\\addplot[color=red,draw=blue,line width=1pt] coordinates { (",2*h-1,",",energias_nb_co_dds[h],")(",2*h,",",energias_nb_co_dds[h],") };\n", sep = ""))
+            cat(paste("\t","\\node[font=","\\tiny] at (axis cs:",2*h-0.5,",",round(energias_nb_co_dds[h], digits = 2)+0.08,") {",round(energias_nb_co_dds[h], digits = 2),"};\n", sep = ""))
+            cat(paste("\t","\\addplot[color=red,draw=red,line width=1pt] coordinates { (",2*h-1,",",energias_mo_co_dds[h],")(",2*h,",",energias_mo_co_dds[h],") };\n", sep = ""))
+            cat(paste("\t","\\node[font=","\\tiny] at (axis cs:",2*h-0.5,",",round(energias_mo_co_dds[h], digits = 2)-0.08,") {",round(energias_mo_co_dds[h], digits = 2),"};\n", sep = ""))
+          }
+  
+        for(k in 1:8)
+          {
+            cat(paste("\t","\\addplot[color=red,draw=blue,line width=0.4pt,densely dotted] coordinates { (",2*k,",",energias_nb_co_dds[k],")(",2*k+1,",",energias_nb_co_dds[k+1],") };\n", sep = ""))
+            cat(paste("\t","\\addplot[color=red,draw=red,line width=0.4pt, densely dotted] coordinates { (",2*k,",",energias_mo_co_dds[k],")(",2*k+1,",",energias_mo_co_dds[k+1],") };\n", sep = ""))
+          }
+@
+      \end{axis}
+    \end{tikzpicture}
+  \end{center}
+%======================================================================================================================================================================================
+    \begin{center}
+    \begin{tikzpicture}[scale=1.0]
+      \begin{axis}[clip=false,ylabel= Relative Energy (eV),xlabel=Reaction coordinate,xtick=\empty,legend pos=north east, xmin=0,xmax=19, title= DDS Pathway Nb vs. Mo (Ni-promoted)]
+        \addlegendentry{\tiny $Ni-NbS_2$}
+        \addlegendentry{\tiny $Ni-MoS_2$}
+<<echo=false,results=tex,fig=false>>=
+        for(h in 1:length(energias_nb_ni_dds))
+          {
+            cat(paste("\t","\\addplot[color=red,draw=blue,line width=1pt] coordinates { (",2*h-1,",",energias_nb_ni_dds[h],")(",2*h,",",energias_nb_ni_dds[h],") };\n", sep = ""))
+            cat(paste("\t","\\node[font=","\\tiny] at (axis cs:",2*h-0.5,",",round(energias_nb_ni_dds[h], digits = 2)+0.08,") {",round(energias_nb_ni_dds[h], digits = 2),"};\n", sep = ""))
+            cat(paste("\t","\\addplot[color=red,draw=red,line width=1pt] coordinates { (",2*h-1,",",energias_mo_ni_dds[h],")(",2*h,",",energias_mo_ni_dds[h],") };\n", sep = ""))
+            cat(paste("\t","\\node[font=","\\tiny] at (axis cs:",2*h-0.5,",",round(energias_mo_ni_dds[h], digits = 2)+0.08,") {",round(energias_mo_ni_dds[h], digits = 2),"};\n", sep = ""))
+          }
+
+        for(k in 1:8)
+          {
+            cat(paste("\t","\\addplot[color=red,draw=blue,line width=0.4pt,densely dotted] coordinates { (",2*k,",",energias_nb_ni_dds[k],")(",2*k+1,",",energias_nb_ni_dds[k+1],") };\n", sep = ""))
+            cat(paste("\t","\\addplot[color=red,draw=red,line width=0.4pt, densely dotted] coordinates { (",2*k,",",energias_mo_ni_dds[k],")(",2*k+1,",",energias_mo_ni_dds[k+1],") };\n", sep = ""))
+          }
+@
+      \end{axis}
+    \end{tikzpicture}
+  \end{center}
+%======================================================================================================================================================================================
+\begin{center}
+    \begin{tikzpicture}[scale=1.0]
+      \begin{axis}[clip=false,ylabel=Relative energy (eV),xlabel=Reaction coordinate,xtick=\empty,legend pos=north east, xmin=0,xmax=19, title= 2.3 DHT-pathway Nb vs. Mo (Co-promoted)]
+        \addlegendentry{\tiny $Co-NbS_2$}
+        \addlegendentry{\tiny $Co-MoS_2$}
+<<echo=false,results=tex,fig=false>>=
+        for(h in 1:length(energias_nb_co_23dht))
+          {
+            cat(paste("\t","\\addplot[color=red,draw=blue,line width=1pt] coordinates { (",2*h-1,",",energias_nb_co_23dht[h],")(",2*h,",",energias_nb_co_23dht[h],") };\n", sep = ""))
+            cat(paste("\t","\\node[font=","\\tiny] at (axis cs:",2*h-0.5,",",round(energias_nb_co_23dht[h], digits = 2)-0.3,") {",round(energias_nb_co_23dht[h], digits = 2),"};\n", sep = ""))
+            cat(paste("\t","\\addplot[color=red,draw=red,line width=1pt] coordinates { (",2*h-1,",",energias_mo_co_23dht[h],")(",2*h,",",energias_mo_co_23dht[h],") };\n", sep = ""))
+            cat(paste("\t","\\node[font=","\\tiny] at (axis cs:",2*h-0.5,",",round(energias_mo_co_23dht[h], digits = 2)-0.3,") {",round(energias_mo_co_23dht[h], digits = 2),"};\n", sep = ""))
+          }
+
+        for(k in 1:8)
+          {
+            cat(paste("\t","\\addplot[color=red,draw=blue,line width=0.4pt,densely dotted] coordinates { (",2*k,",",energias_nb_co_23dht[k],")(",2*k+1,",",energias_nb_co_23dht[k+1],") };\n", sep = ""))
+            cat(paste("\t","\\addplot[color=red,draw=red,line width=0.4pt, densely dotted] coordinates { (",2*k,",",energias_mo_co_23dht[k],")(",2*k+1,",",energias_mo_co_23dht[k+1],") };\n", sep = ""))
+          }
+@
+      \end{axis}
+    \end{tikzpicture}
+  \end{center}
+%======================================================================================================================================================================================
+    \begin{center}
+    \begin{tikzpicture}[scale=1.0]
+      \begin{axis}[clip=false,ylabel=Relative energy (eV),xlabel=Reaction coordinate,xtick=\empty,legend pos=north east, xmin=0,xmax=19, title= 2.3 DHT-pathway Nb vs. Mo (Ni-promoted)]
+        \addlegendentry{\tiny $Ni-NbS_2$}
+        \addlegendentry{\tiny $Ni-MoS_2$}
+<<echo=false,results=tex,fig=false>>=
+        for(h in 1:length(energias_nb_ni_23dht))
+          {
+            cat(paste("\t","\\addplot[color=red,draw=blue,line width=1pt] coordinates { (",2*h-1,",",energias_nb_ni_23dht[h],")(",2*h,",",energias_nb_ni_23dht[h],") };\n", sep = ""))
+            cat(paste("\t","\\node[font=","\\tiny] at (axis cs:",2*h-0.5,",",round(energias_nb_ni_23dht[h], digits = 2)-0.3,") {",round(energias_nb_ni_23dht[h], digits = 2),"};\n", sep = ""))
+            cat(paste("\t","\\addplot[color=red,draw=red,line width=1pt] coordinates { (",2*h-1,",",energias_mo_ni_23dht[h],")(",2*h,",",energias_mo_ni_23dht[h],") };\n", sep = ""))
+            cat(paste("\t","\\node[font=","\\tiny] at (axis cs:",2*h-0.5,",",round(energias_mo_ni_23dht[h], digits = 2)+0.3,") {",round(energias_mo_ni_23dht[h], digits = 2),"};\n", sep = ""))
+          }
+
+        for(k in 1:8)
+          {
+            cat(paste("\t","\\addplot[color=red,draw=blue,line width=0.4pt,densely dotted] coordinates { (",2*k,",",energias_nb_ni_23dht[k],")(",2*k+1,",",energias_nb_ni_23dht[k+1],") };\n", sep = ""))
+            cat(paste("\t","\\addplot[color=red,draw=red,line width=0.4pt, densely dotted] coordinates { (",2*k,",",energias_mo_ni_23dht[k],")(",2*k+1,",",energias_mo_ni_23dht[k+1],") };\n", sep = ""))
+          }
+@
+      \end{axis}
+    \end{tikzpicture}
+  \end{center}
+%======================================================================================================================================================================================
+\begin{center}
+    \begin{tikzpicture}[scale=1.0]
+      \begin{axis}[clip=false,ylabel=Relative energy (eV),xlabel=Reaction coordinate,xtick=\empty,legend pos=north east, xmin=0,xmax=19, title= 2.5 DHT-pathway Nb vs. Mo (Co-promoted)]
+        \addlegendentry{\tiny $Co-NbS_2$}
+        \addlegendentry{\tiny $Co-MoS_2$}
+<<echo=false,results=tex,fig=false>>=
+        for(h in 1:length(energias_nb_co_25dht))
+          {
+            cat(paste("\t","\\addplot[color=red,draw=blue,line width=1pt] coordinates { (",2*h-1,",",energias_nb_co_25dht[h],")(",2*h,",",energias_nb_co_25dht[h],") };\n", sep = ""))
+            cat(paste("\t","\\node[font=","\\tiny] at (axis cs:",2*h-0.5,",",round(energias_nb_co_25dht[h], digits = 2)-0.3,") {",round(energias_nb_co_25dht[h], digits = 2),"};\n", sep = ""))
+            cat(paste("\t","\\addplot[color=red,draw=red,line width=1pt] coordinates { (",2*h-1,",",energias_mo_co_25dht[h],")(",2*h,",",energias_mo_co_25dht[h],") };\n", sep = ""))
+            cat(paste("\t","\\node[font=","\\tiny] at (axis cs:",2*h-0.5,",",round(energias_mo_co_25dht[h], digits = 2)-0.3,") {",round(energias_mo_co_25dht[h], digits = 2),"};\n", sep = ""))
+          }
+
+        for(k in 1:8)
+          {
+            cat(paste("\t","\\addplot[color=red,draw=blue,line width=0.4pt,densely dotted] coordinates { (",2*k,",",energias_nb_co_25dht[k],")(",2*k+1,",",energias_nb_co_25dht[k+1],") };\n", sep = ""))
+            cat(paste("\t","\\addplot[color=red,draw=red,line width=0.4pt, densely dotted] coordinates { (",2*k,",",energias_mo_co_25dht[k],")(",2*k+1,",",energias_mo_co_25dht[k+1],") };\n", sep = ""))
+          }
+@
+      \end{axis}
+    \end{tikzpicture}
+  \end{center}
+%======================================================================================================================================================================================
+    \begin{center}
+    \begin{tikzpicture}[scale=1.0]
+      \begin{axis}[clip=false,ylabel=Relative energy (eV),xlabel=Reaction coordinate,xtick=\empty,legend pos=north east, xmin=0,xmax=19, title= 2.5 DHT-pathway Nb vs. Mo (Ni-promoted)]
+        \addlegendentry{\tiny $Ni-NbS_2$}
+        \addlegendentry{\tiny $Ni-MoS_2$}
+<<echo=false,results=tex,fig=false>>=
+        for(h in 1:length(energias_nb_ni_25dht))
+          {
+            cat(paste("\t","\\addplot[color=red,draw=blue,line width=1pt] coordinates { (",2*h-1,",",energias_nb_ni_25dht[h],")(",2*h,",",energias_nb_ni_25dht[h],") };\n", sep = ""))
+            cat(paste("\t","\\node[font=","\\tiny] at (axis cs:",2*h-0.5,",",round(energias_nb_ni_25dht[h], digits = 2)-0.3,") {",round(energias_nb_ni_25dht[h], digits = 2),"};\n", sep = ""))
+            cat(paste("\t","\\addplot[color=red,draw=red,line width=1pt] coordinates { (",2*h-1,",",energias_mo_ni_25dht[h],")(",2*h,",",energias_mo_ni_25dht[h],") };\n", sep = ""))
+            cat(paste("\t","\\node[font=","\\tiny] at (axis cs:",2*h-0.5,",",round(energias_mo_ni_25dht[h], digits = 2)+0.3,") {",round(energias_mo_ni_25dht[h], digits = 2),"};\n", sep = ""))
+          }
+
+        for(k in 1:8)
+          {
+            cat(paste("\t","\\addplot[color=red,draw=blue,line width=0.4pt,densely dotted] coordinates { (",2*k,",",energias_nb_ni_25dht[k],")(",2*k+1,",",energias_nb_ni_25dht[k+1],") };\n", sep = ""))
+            cat(paste("\t","\\addplot[color=red,draw=red,line width=0.4pt, densely dotted] coordinates { (",2*k,",",energias_mo_ni_25dht[k],")(",2*k+1,",",energias_mo_ni_25dht[k+1],") };\n", sep = ""))
+          }
+@
+      \end{axis}
+    \end{tikzpicture}
+  \end{center}
+ \end{document}
