@@ -9,3 +9,5 @@
 .jpeg
 .xls
 results/*
+RData/*.RData
+graficos/*.pdf
