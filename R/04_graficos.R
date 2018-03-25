@@ -15,3 +15,5 @@ Energia
 plot(Energia)
 dEnergia
 plot(dEnergia)
+
+y<-2
