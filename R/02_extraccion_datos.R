@@ -41,11 +41,8 @@ for(i in 1:length(docsLista) )
 #     }
 #   }
 
-results <- data.frame(servidor, docsLista, Energia, dEnergia)
-write.xlsx( results,'resultados.xlsx',sheetName = 'Todos', 
-            col.names = TRUE, row.names = TRUE, append = FALSE, showNA = TRUE)
 
-Energia
-plot(Energia)
-dEnergia
-plot(dEnergia)
+# Ejemplo como guardar
+results<-data.frame( servidor = 'S1', docsLista = 1, energia = 2, denergia = 3 )
+filename<-paste0( 'RData/resultados_e1_15_', format( Sys.Date(), '%Y_%m_%d' ), '.RData' ) 
+save( results, file = filename )
