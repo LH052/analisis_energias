@@ -1,4 +1,6 @@
+%---------------------------------------------------------------------------------------------------
 \documentclass[a4paper,10pt]{article}
+
 %\usepackage[left=1.5cm,top=2.5cm,right=1.5cm,bottom=2.5cm]{geometry}
 \usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
@@ -6,8 +8,6 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{flushend}
-\usepackage{Sweave}
-
 \usepackage{pgfplots}
 \usepackage{tikz}
 \usepackage{verbatim}
@@ -16,31 +16,33 @@
 % \setlength\PreviewBorder{10pt}
 \pgfplotsset{compat=1.15}
 
+
+%---------------------------------------------------------------------------------------------------
 \begin{document}
-\SweaveOpts{concordance=TRUE}
 
 \title{Código automatizado para generación de reportes:}
 \author{Javier Rolando Corregidor Maldonado \thanks{E-mail: neajavierc@hotmail.com}}
 \date{\today}
 \maketitle
 
+%---------------------------------------------------------------------------------------------------
 \section{Introducción}
-  Aquí escribiremos la introducción
+Aquí escribiremos la introducción
   
+%---------------------------------------------------------------------------------------------------
 \section{Sección 1}
 
 Aquí diremos lo que queramos....
 
 
-
-<<label=energias,echo=false,results=hide,fig=false>>==
+<< energias, echo=false,results=hide,fig=false>>==
       docsLista<-c("220","223","225","227","229","230","235")
       Energia<-numeric(length(docsLista))
       dEnergia<-numeric(length(docsLista))
       for(i in 1:length(docsLista) )
         {
           
-        x<-readLines(paste("C:/Users/icm25b/Documents/Javier/Pruebas R/analisisEnergia/Docs Vasp/Medea Machine/",docsLista[i],"/OUTCAR.out",sep = ""));
+        x<-readLines(paste("data/Medea Machine/",docsLista[i],"/OUTCAR.out",sep = ""));
           lineaEnergia<-grep("free  energy   TOTEN  =", x, value = TRUE);
             e<-lineaEnergia[length(lineaEnergia)];
               
@@ -55,7 +57,7 @@ Aquí diremos lo que queramos....
 @
 
   \begin{figure}
-<<echo=false,results=hide,fig=true>>=
+<<plot_1,echo=FALSE,results='hide'>>=
   plot(docsLista,Energia)
 @
     \caption{Diagrama de Energías}\label{camino de Reacción1}
@@ -63,7 +65,7 @@ Aquí diremos lo que queramos....
 
 \begin{tikzpicture}[scale=1.0]
   \begin{axis}[clip=false,ylabel=Energía (eV),xlabel=Rxn coordinate,xtick=\empty, title=Perfil de Energía para DDS,]
-<<echo=false,results=tex,fig=false>>=
+<<result_1, echo=FALSE,results='asis',fig.keep='none'>>=
   for(h in 1:length(docsLista))
     {
       cat(paste("\t","\\addplot[color=red,draw=blue,line width=1pt] coordinates { (",2*h-1,",",Energia[h],")(",2*h,",",Energia[h],") };\n", sep = ""))
@@ -78,7 +80,6 @@ Aquí diremos lo que queramos....
   \end{axis}
 
 \end{tikzpicture}
-
 
 Este es un ejemplo de cómo se vería una orden en R
 \end{document}
